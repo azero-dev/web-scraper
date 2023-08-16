@@ -32,6 +32,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      max-width: 18vw;
+      margin: 0 auto;
     }
 
     .select {
@@ -87,34 +89,49 @@
   </style>
   <script type="module">
     document.getElementById("submitButton").addEventListener("click", async () => {
-      const responseEle = document.getElementById('response')
-      responseEle.innerHTML = 'Loading...'
+      
+      // Get selected option and check if selected
       const selectedOption = document.querySelector('input[name="option"]:checked');
       if (!selectedOption) {
         alert("Please select an option.");
         return;
       }
-
+      // Get URL and check if entered
       const url = document.getElementById("urlInput").value
       if (!url) {
         alert("Please enter an URL.");
         return;
       }
 
+      // Clear response element
+      const responseEle = document.getElementById('response')
+      responseEle.innerHTML = 'Loading...'
+
+      // Get selected option value
       const optionValue = selectedOption.value;
 
+      // Send request to API
       try {
-        const response = await fetch(`http://localhost:3000/?url=${url}&option=${optionValue}`);
-
-        if (response.ok) {
-          const responseData = await response.blob()
-          const imgURL = URL.createObjectURL(responseData)
-          const imgElement = document.createElement('img')
-          imgElement.src = imgURL
-          responseEle.innerHTML = ''
-          responseEle.appendChild(imgElement)
-        } else {
-          console.error("Error sending data to API:", response.statusText);
+        if (optionValue === 'screenshot') {
+          const response = await fetch(`http://localhost:3000/?url=${url}&option=${optionValue}`);
+          if (response.ok) {
+            const responseData = await response.blob()
+            const imgURL = URL.createObjectURL(responseData)
+            const imgElement = document.createElement('img')
+            imgElement.src = imgURL
+            responseEle.innerHTML = ''
+            responseEle.appendChild(imgElement)
+          } else {
+            console.error("Error sending data to API:", response.statusText);
+          }
+        } else if (optionValue === 'links') {
+          fetch(`http://localhost:3000/?url=${url}&option=${optionValue}`)
+            .then(data => data.json())
+            .then(data => {
+              const links = data.links
+              const linksList = links.map(link => `<p><a href="${link}">${link}</a></p>`).join('')
+              responseEle.innerHTML = linksList
+            })
         }
       } catch (error) {
         console.error("Error:", error);
