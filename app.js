@@ -14,7 +14,7 @@ app.get('/', async (req, res) => {
   const { url, option } = req.query;
   if ( url && option === 'screenshot') {
     try {
-      const screenshot = await run()
+      const screenshot = await run(url)
       const screenshotBase64 = screenshot.toString('base64');
       res.writeHead(200, {
         'Content-Type': 'image/png',
