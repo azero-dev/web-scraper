@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web scraper</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      text-align: center;
+      padding: 40px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    #selection {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .select {
+      flex: 1;
+    }
+
+    .select label {
+      cursor: pointer;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: auto;
+      padding: 14px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1.2em;
+      text-align: center;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    input[type="radio"] {
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #response {
+      margin-top: 20px;
+      max-width: 80vw;
+    }
+  </style>
+  <script type="module">
+    document.getElementById("submitButton").addEventListener("click", async () => {
+      const responseEle = document.getElementById('response')
+      responseEle.innerHTML = 'Loading...'
+      const selectedOption = document.querySelector('input[name="option"]:checked');
+      if (!selectedOption) {
+        alert("Please select an option.");
+        return;
+      }
+
+      const url = document.getElementById("urlInput").value
+      if (!url) {
+        alert("Please enter an URL.");
+        return;
+      }
+
+      const optionValue = selectedOption.value;
+
+      try {
+        const response = await fetch(`http://localhost:3000/?url=${url}&option=${optionValue}`);
+
+        if (response.ok) {
+          const responseData = await response.blob()
+          const imgURL = URL.createObjectURL(responseData)
+          const imgElement = document.createElement('img')
+          imgElement.src = imgURL
+          responseEle.innerHTML = ''
+          responseEle.appendChild(imgElement)
+        } else {
+          console.error("Error sending data to API:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <main>
+    <h1>Web scraper</h1>
+    <input type="text" id="urlInput" placeholder="Enter URL">
+    <div id="selection">
+      <div class="select">
+        <input type="radio" id="screenshotOption" name="option" value="screenshot">
+        <label for="screenshotOption">Screenshot</label><br>
+      </div>
+      <div class="select">
+        <input type="radio" id="linksOption" name="option" value="links">
+        <label for="linksOption">Links</label><br>
+      </div>
+    </div>
+    <button id="submitButton">Submit</button>
+    <div id="response"></div>
+  </main>
+</body>
+
+</html>

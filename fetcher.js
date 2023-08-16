@@ -7,7 +7,7 @@ async function run() {
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
     await page.goto('https://www.youtube.com/');
-    await page.setViewport({ width: 1920, height: 1080 });
+    await page.setViewport({ width: 200, height: 200 });
     screen = await page.screenshot();
     await browser.close();
 
@@ -18,3 +18,7 @@ async function run() {
 }
 
 module.exports = run;
+
+
+
+// await page.setViewport({ width: 1024, height: 768 });
