@@ -1,4 +1,7 @@
 GET http://localhost:3000
 
-###
-GET http://localhost:3000/?options=1
+###Get links
+GET http://localhost:3000/?url=https://en.wikipedia.org/wiki/Main_Page&option=links
+
+###Get screenshots
+GET http://localhost:3000/?url=https://en.wikipedia.org/wiki/Main_Page&option=screenshot
