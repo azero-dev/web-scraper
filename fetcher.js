@@ -1,38 +1,33 @@
-const fs = require("fs").promises;
 const puppeteer = require("puppeteer");
 
 async function run(url, option) {
-  if (url && option === "screenshot") {
-    let screen;
-    try {
-      const browser = await puppeteer.launch({ headless: "new" });
-      const page = await browser.newPage();
-      await page.goto(url);
+  if (!url || !option) {
+    throw new Error('Missing url or option');
+  }
+
+  try {
+    const browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.goto(url);
+    
+    if (option === "screenshot") {
       await page.setViewport({ width: 1024, height: 768 });
-      screen = await page.screenshot();
+      const screenshot = await page.screenshot();
       await browser.close();
-    } catch (error) {
-      throw error;
-    }
-    return screen;
-  } else if (url && option === "links") {
-    try {
-      const browser = await puppeteer.launch({ headless: "new" });
-      const page = await browser.newPage();
-      await page.goto(url);
+      return screenshot;
+    } else if (option === "links") {
       const links = await page.$$eval("a", (as) =>
         as.map((a) => a.href)
       );
       await browser.close();
       return links;
-    } catch (error) {
-      throw error;
+    } else {
+      await browser.close();
+      throw new Error('Invalid option');
     }
-  } else {
-    return "Ask me something!";
+  } catch (error) {
+    throw error;
   }
 }
 
 module.exports = run;
-
-// width: 1024, height: 768
