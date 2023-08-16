@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web scraper</title>
+  <title>Web Scraper</title>
   <style>
     body {
       display: flex;
@@ -87,62 +86,11 @@
       max-width: 80vw;
     }
   </style>
-  <script type="module">
-    document.getElementById("submitButton").addEventListener("click", async () => {
-      
-      // Get selected option and check if selected
-      const selectedOption = document.querySelector('input[name="option"]:checked');
-      if (!selectedOption) {
-        alert("Please select an option.");
-        return;
-      }
-      // Get URL and check if entered
-      const url = document.getElementById("urlInput").value
-      if (!url) {
-        alert("Please enter an URL.");
-        return;
-      }
-
-      // Clear response element
-      const responseEle = document.getElementById('response')
-      responseEle.innerHTML = 'Loading...'
-
-      // Get selected option value
-      const optionValue = selectedOption.value;
-
-      // Send request to API
-      try {
-        if (optionValue === 'screenshot') {
-          const response = await fetch(`http://localhost:3000/?url=${url}&option=${optionValue}`);
-          if (response.ok) {
-            const responseData = await response.blob()
-            const imgURL = URL.createObjectURL(responseData)
-            const imgElement = document.createElement('img')
-            imgElement.src = imgURL
-            responseEle.innerHTML = ''
-            responseEle.appendChild(imgElement)
-          } else {
-            console.error("Error sending data to API:", response.statusText);
-          }
-        } else if (optionValue === 'links') {
-          fetch(`http://localhost:3000/?url=${url}&option=${optionValue}`)
-            .then(data => data.json())
-            .then(data => {
-              const links = data.links
-              const linksList = links.map(link => `<p><a href="${link}">${link}</a></p>`).join('')
-              responseEle.innerHTML = linksList
-            })
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    });
-  </script>
 </head>
 
 <body>
   <main>
-    <h1>Web scraper</h1>
+    <h1>Web Scraper</h1>
     <input type="text" id="urlInput" placeholder="URL format: http://www.example.com">
     <div id="selection">
       <div class="select">
@@ -157,6 +105,7 @@
     <button id="submitButton">Submit</button>
     <div id="response"></div>
   </main>
+  <script type="module" src="script.js"></script>
 </body>
 
 </html>
