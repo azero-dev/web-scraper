@@ -1,20 +1,29 @@
 const express = require('express')
+const cors = require('cors')
 const run = require('./fetcher.js')
 
 const app = express()
 app.use(express.json())
+// Warning: CORS is enabled for all origins
+// app.use(cors())
 app.disable('x-powered-by')
-
-// Define the whitelist of allowed origins
-const allowedOrigins = ['http://localhost:8080', 'https://inferente.com/']
-
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', '*')
+// To enable CORS for specific origins only, use the following:
+app.use(cors({
+  origin: (origin, callback) => {
+    const ACCEPTED_ORIGINS = [
+      'https://web-scraper-jlf0-dev.fl0.io/',
+      'https://inferente.com/scraper/',
+      'https://inferente.com/',
+      'http://localhost:8080',
+      'https://example.com',
+    ]
+    if (!origin || ACCEPTED_ORIGINS.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS. Check the origin'))
+    }
   }
-  next()
-})
+}))
 
 app.get('/', async (req, res) => {
   const { url, option } = req.query
@@ -46,8 +55,8 @@ app.get('/', async (req, res) => {
   }
 })
 
-const PORT = process.env.PORT ?? 3000
+const port = process.env.PORT ?? 8080
 
-app.listen(PORT, () => {
-  console.log(`Server listening on PORT: ${PORT}`)
+app.listen(port, () => {
+  console.log(`Server listening on PORT: ${port}`)
 })

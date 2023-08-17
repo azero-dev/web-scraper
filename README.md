@@ -3,4 +3,6 @@
 
 Simply add the URL of the website (in http://www.example.com format) and select whether you want to take a screenshot or get the links.
 
+You can use the web on ./web to try the API.
+
 STILL under development**
