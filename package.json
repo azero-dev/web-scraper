@@ -4,9 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "inst": "npm install",
-    "start:dev": "node --watch app.js"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
