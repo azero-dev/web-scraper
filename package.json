@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npm install && node app.js",
+    "start": "node app.js",
+    "inst": "npm install",
     "start:dev": "node --watch app.js"
   },
   "keywords": [],
@@ -14,5 +15,8 @@
     "cors": "2.8.5",
     "express": "4.18.2",
     "puppeteer": "21.0.3"
+  },
+  "engines": {
+    "node": "18.17.0"
   }
 }
