@@ -12,7 +12,7 @@ document.getElementById("submitButton").addEventListener("click", async () => {
     responseEle.innerHTML = 'Loading...'
     const optionValue = selectedOption.value
 
-    const response = await fetch(`http://localhost:3000/?url=${url}&option=${optionValue}`)
+    const response = await fetch(`http://localhost:8080/?url=${url}&option=${optionValue}`)
 
     if (response.ok) {
       if (optionValue === 'screenshot') {
@@ -30,7 +30,7 @@ document.getElementById("submitButton").addEventListener("click", async () => {
       }
     } else {
       responseEle.innerHTML = 'It seems that something went wrong in the server.'
-      console.error("Error sending data to API:", response.statusText)
+      console.error("Error in the API:", response.statusText)
     }
   } catch (error) {
     responseEle.innerHTML = 'It seems that something went wrong. Check the console.'

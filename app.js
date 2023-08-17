@@ -5,25 +5,25 @@ const run = require('./fetcher.js')
 const app = express()
 app.use(express.json())
 // Warning: CORS is enabled for all origins
-// app.use(cors())
+app.use(cors())
 app.disable('x-powered-by')
 // To enable CORS for specific origins only, use the following:
-app.use(cors({
-  origin: (origin, callback) => {
-    const ACCEPTED_ORIGINS = [
-      'https://web-scraper-jlf0-dev.fl0.io/',
-      'https://inferente.com/scraper/',
-      'https://inferente.com/',
-      'http://localhost:8080',
-      'https://example.com',
-    ]
-    if (!origin || ACCEPTED_ORIGINS.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS. Check the origin'))
-    }
-  }
-}))
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     const ACCEPTED_ORIGINS = [
+//       'https://web-scraper-jlf0-dev.fl0.io/',
+//       'https://inferente.com/scraper/',
+//       'https://inferente.com/',
+//       'http://localhost:8080',
+//       'https://example.com',
+//     ]
+//     if (!origin || ACCEPTED_ORIGINS.includes(origin)) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS. Check the origin'))
+//     }
+//   }
+// }))
 
 app.get('/', async (req, res) => {
   const { url, option } = req.query
