@@ -6,7 +6,7 @@ app.use(express.json())
 app.disable('x-powered-by')
 
 // Define the whitelist of allowed origins
-const allowedOrigins = ['http://localhost:8080']
+const allowedOrigins = ['http://localhost:8080', 'https://inferente.com/scraper/']
 
 app.use((req, res, next) => {
   const { origin } = req.headers;
