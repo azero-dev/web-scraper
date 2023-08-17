@@ -6,12 +6,12 @@ app.use(express.json())
 app.disable('x-powered-by')
 
 // Define the whitelist of allowed origins
-const allowedOrigins = ['http://localhost:8080', 'https://inferente.com/scraper/']
+const allowedOrigins = ['http://localhost:8080', 'https://inferente.com/']
 
 app.use((req, res, next) => {
   const { origin } = req.headers;
   if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin)
+    res.header('Access-Control-Allow-Origin', '*')
   }
   next()
 })
@@ -42,12 +42,12 @@ app.get('/', async (req, res) => {
     }
   } catch (error) {
     console.error('Error:', error)
-    return res.status(500).json({ error: 'An error occurred' })
+    return res.status(500).json({ error: error.message })
   }
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT ?? 3000
 
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`)
+  console.log(`Server listening on PORT: ${PORT}`)
 })

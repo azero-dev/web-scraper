@@ -29,9 +29,11 @@ document.getElementById("submitButton").addEventListener("click", async () => {
         responseEle.innerHTML = linksList
       }
     } else {
+      responseEle.innerHTML = 'It seems that something went wrong in the server.'
       console.error("Error sending data to API:", response.statusText)
     }
   } catch (error) {
+    responseEle.innerHTML = 'It seems that something went wrong. Check the console.'
     console.error("Error:", error)
   }
 })
