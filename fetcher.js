@@ -6,7 +6,11 @@ async function run(url, option) {
   }
 
   try {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+      headless: "new",
+      // running without sandbox is not recommended!
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
     await page.goto(url);
     
