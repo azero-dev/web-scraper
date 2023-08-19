@@ -1,10 +1,10 @@
-const express = require("express");
-const cors = require("cors");
-const run = require("./fetcher.js");
-const { validateQuery } = require("./schemas/request.js");
+import express, { json } from "express";
+import cors from "cors";
+import run from "./fetcher.js";
+import { validateQuery } from "./schemas/request.js";
 
 const app = express();
-app.use(express.json());
+app.use(json());
 app.disable("x-powered-by");
 // Warning: CORS is enabled for all origins. ONLY for testing purposes.
 app.use(cors());

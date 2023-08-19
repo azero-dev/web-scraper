@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+import { launch } from "puppeteer";
 
 async function run(url, option) {
   if (!url || !option) {
@@ -6,7 +6,7 @@ async function run(url, option) {
   }
 
   try {
-    const browser = await puppeteer.launch({
+    const browser = await launch({
       headless: "new",
       // running without sandbox is not recommended!
       args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -34,4 +34,4 @@ async function run(url, option) {
   }
 }
 
-module.exports = run;
+export default run;

@@ -1,4 +1,4 @@
-const z = require('zod')
+import z from 'zod'
 
 const querySchema = z.object({
   url: z.string().url({
@@ -8,8 +8,6 @@ const querySchema = z.object({
   option: z.string(),
 })
 
-function validateQuery(query) {
+export function validateQuery(query) {
   return querySchema.safeParse(query)
 }
-
-module.exports = {validateQuery}
