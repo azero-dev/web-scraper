@@ -1,6 +1,6 @@
 import { Router } from "express"
-import run from "../fetcher.js"
 import { validateQuery } from "../schemas/request.js"
+import { fetcherModel } from "../models/fetcher.js"
 
 export const indexRouter = Router()
 
@@ -11,19 +11,9 @@ indexRouter.get("/", async (req, res) => {
     return res.status(422).json({ error: validation.error.message });
   }
 
-  const { url, option } = validation.data
-
   try {
-    if (!url || !option) {
-      return res.status(400).json({ error: "Missing url or option" });
-    }
-
-    let result;
-    if (option === "screenshot" || option === "links") {
-      result = await run(url, option);
-    } else {
-      return res.status(400).json({ error: "Invalid option" });
-    }
+    const { url, option } = validation.data
+    let result = await fetcherModel.run({ url, option })
 
     if (option === "screenshot") {
       const screenshotBase64 = result.toString("base64");

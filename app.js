@@ -1,7 +1,7 @@
 import express, { json } from "express"
+import { indexRouter } from "./routes/indexRoute.js"
 import cors from "cors"
 import { corsMiddleware } from "./middlewares/cors.js"
-import { indexRouter } from "./routes/indexRoute.js"
 
 const app = express()
 app.use(json())
